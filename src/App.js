@@ -3,7 +3,8 @@ import './App.css';
 import React, { useState } from 'react';
 
 function App() {
-  const animalsList = [
+
+  const [animals, setAnimals] = useState([
     { id: 1, species: "Usrus Arctos", name: "Djole", dateOfBirth: new Date() },
     { id: 2, species: "Canis lupus", name: "Reks", dateOfBirth: new Date() },
     { id: 3, species: "Panthera tigris", name: "Meca", dateOfBirth: new Date() },
@@ -11,9 +12,7 @@ function App() {
     { id: 5, species: "Lynx lynx", name: "Rogonja", dateOfBirth: new Date() },
     { id: 6, species: "Lynx lynx", name: "Rogonja 2", dateOfBirth: null },
     { id: 7, species: "Lynx lynx", name: "Rogonja 3", }
-  ];
-
-  const [animals, setAnimals] = useState(animalsList);
+  ]);
   const [species, setSpecies] = useState("");
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
@@ -48,11 +47,14 @@ function App() {
     e.preventDefault();
     // console.log(species, name, dateOfBirth);
     setAnimals([...animals, { id: count, species: species, name: name, dateOfBirth: new Date(dateOfBirth) }])
+    setSpecies("");
+    setName("");
+    setDateOfBirth(new Date());
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form style={{ display: 'flex', flexDirection: 'column', marginBottom: 25 }} onSubmit={handleSubmit}>
         <label>
           Species:
           <input
@@ -79,9 +81,9 @@ function App() {
           Date of birth:
           <input
             type='date'
-            value={dateOfBirth}
+            value={dateOfBirth ? dateOfBirth.toISOString().substr(0, 10) : ""}
             onChange={(e) => {
-              setDateOfBirth(e.target.value);
+              setDateOfBirth(new Date(e.target.value));
             }}
           />
         </label>
