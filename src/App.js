@@ -4,16 +4,25 @@ import React, { useState } from 'react';
 
 function App() {
   const animalsList = [
-    { id: "1", species: "Usrus Arctos", name: "Djole", dateOfBirth: new Date() },
-    { id: "2", species: "Canis lupus", name: "Reks", dateOfBirth: new Date() },
-    { id: "3", species: "Panthera tigris", name: "Meca", dateOfBirth: new Date() },
-    { id: "4", species: "Panthera leo", name: "Kori", dateOfBirth: new Date() },
-    { id: "5", species: "Lynx lynx", name: "Rogonja", dateOfBirth: new Date() },
-    { id: "6", species: "Lynx lynx", name: "Rogonja 2", dateOfBirth: null },
-    { id: "7", species: "Lynx lynx", name: "Rogonja 3", }
+    { id: 1, species: "Usrus Arctos", name: "Djole", dateOfBirth: new Date() },
+    { id: 2, species: "Canis lupus", name: "Reks", dateOfBirth: new Date() },
+    { id: 3, species: "Panthera tigris", name: "Meca", dateOfBirth: new Date() },
+    { id: 4, species: "Panthera leo", name: "Kori", dateOfBirth: new Date() },
+    { id: 5, species: "Lynx lynx", name: "Rogonja", dateOfBirth: new Date() },
+    { id: 6, species: "Lynx lynx", name: "Rogonja 2", dateOfBirth: null },
+    { id: 7, species: "Lynx lynx", name: "Rogonja 3", }
   ];
 
   const [animals, setAnimals] = useState(animalsList);
+  const [species, setSpecies] = useState("");
+  const [name, setName] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState(new Date());
+  const [count, setCount] = useState(7);
+
+  const increaseCount = () => {
+    setCount(count + 1);
+  };
+
 
   const deleteRow = (id) => {
     var updatedAnimals = [...animals];
@@ -33,10 +42,51 @@ function App() {
       updatedAnimals = [animalToMove, ...updatedAnimals]
       setAnimals(updatedAnimals);
     }
-  }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log(species, name, dateOfBirth);
+    setAnimals([...animals, { id: count, species: species, name: name, dateOfBirth: new Date(dateOfBirth) }])
+  };
 
   return (
     <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Species:
+          <input
+            placeholder='Species'
+            type='text'
+            value={species}
+            onChange={(e) => {
+              setSpecies(e.target.value);
+            }}
+          />
+        </label>
+        <label>
+          Name:
+          <input
+            placeholder='Name'
+            type='text'
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+        </label>
+        <label>
+          Date of birth:
+          <input
+            type='date'
+            value={dateOfBirth}
+            onChange={(e) => {
+              setDateOfBirth(e.target.value);
+            }}
+          />
+        </label>
+        <button onClick={increaseCount}>Submit</button>
+      </form>
       <table>
         <thead>
           <tr>
