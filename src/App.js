@@ -24,6 +24,17 @@ function App() {
     }
   };
 
+  const moveToTop = (id) => {
+    var updatedAnimals = [...animals];
+    var indexToMove = updatedAnimals.findIndex(x => x.id == id);
+    if (indexToMove > -1) {
+      var animalToMove = updatedAnimals[indexToMove];
+      updatedAnimals.splice(indexToMove, 1)
+      updatedAnimals = [animalToMove, ...updatedAnimals]
+      setAnimals(updatedAnimals);
+    }
+  }
+
   return (
     <div>
       <table>
@@ -42,6 +53,9 @@ function App() {
               <td>{animal.dateOfBirth ? (animal.dateOfBirth.toISOString()) : ("Nepoznat")}</td>
               <td>
                 <button onClick={() => deleteRow(animal.id)}>Delete</button>
+              </td>
+              <td>
+                <button onClick={() => moveToTop(animal.id)}>Move to top</button>
               </td>
             </tr>
           ))}
